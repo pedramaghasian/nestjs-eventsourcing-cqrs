@@ -9,10 +9,10 @@ import { ProductController } from './products.controller';
         name: 'PRODUCT_SERVICE',
         transport: Transport.RMQ,
         options: {
-          // urls: ['amqp://user:password@127.0.0.1:5672/'],
-          urls: [
-            'amqps://fpweywyq:zXcspMIEbbmmYefPOtzr5a1N11OUF1Ry@hummingbird.rmq.cloudamqp.com/fpweywyq',
-          ],
+          urls: ['amqp://user:password@rabbitmq:5672/'],
+          // urls: [
+          //   'amqps://fpweywyq:zXcspMIEbbmmYefPOtzr5a1N11OUF1Ry@hummingbird.rmq.cloudamqp.com/fpweywyq',
+          // ],
           queue: 'main_queue',
           queueOptions: {
             durable: false,

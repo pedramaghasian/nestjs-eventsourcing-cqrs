@@ -1,8 +1,8 @@
 import { EventPattern } from '@nestjs/microservices';
-import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { ProductService } from '../services/products.service';
 import { CreateProductDto } from '../dtos/create-product.dto';
-
+import { v4 as uuidv4 } from 'uuid';
 
 @Controller('products')
 export class ProductController {
@@ -13,8 +13,7 @@ export class ProductController {
 
   @EventPattern('create_product')
   async createProduct(data: CreateProductDto) {
-    console.log('im in the product controller this data i recive with rabbitmq',data);
-    
+    data.id = uuidv4();
     return this.productService.createProduct(data);
   }
 }

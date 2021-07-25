@@ -10,13 +10,12 @@ export class ProductsSagas {
   @Saga()
   dragonKilled = (events$: Observable<any>) => {
     return events$.pipe(
-      ofType(ProductCreatedEvent
-        
-        ),
+      ofType(ProductCreatedEvent),
       delay(1000),
       map((event) => {
         console.log('Inside [ProductsSagas] Saga');
-        Logger.log(event, 'inside ProductsSagas saga');
+        console.log(event);
+
         // return new CreateProductCommand(event['productDto']);
       }),
     );

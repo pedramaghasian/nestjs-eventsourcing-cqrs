@@ -11,7 +11,8 @@ import { EventStoreModule, EventStore, Event } from '@nordfjord/nestjs-cqrs-es';
       connection: {
         defaultUserCredentials: { username: 'admin', password: 'changeit' },
       },
-      tcpEndpoint: 'tcp://127.0.0.1:1113',
+      // tcpEndpoint: 'tcp://127.0.0.1:1113',
+      tcpEndpoint: 'tcp://eventstoredb:1113',
     }),
 
     ProductModule,
@@ -19,13 +20,4 @@ import { EventStoreModule, EventStore, Event } from '@nordfjord/nestjs-cqrs-es';
   controllers: [],
   providers: [],
 })
-export class AppModule implements OnModuleInit {
-  constructor(
-    private readonly eventStore: EventStore,
-    private readonly eventBus: EventBus,
-  ) {}
-
-  async onModuleInit() {
-    // this.eventBus.publisher =this.eventStore
-  }
-}
+export class AppModule {}
