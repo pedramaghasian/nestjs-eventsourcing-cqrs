@@ -14,6 +14,7 @@ export class ProductController {
   @EventPattern('create_product')
   async createProduct(data: CreateProductDto) {
     data.id = uuidv4();
+    // console.log(data)
     return this.productService.createProduct(data);
   }
 }

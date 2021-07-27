@@ -13,8 +13,7 @@ export class ProductsSagas {
       ofType(ProductCreatedEvent),
       delay(1000),
       map((event) => {
-        console.log('Inside [ProductsSagas] Saga');
-        console.log(event);
+        // console.log('Inside [ProductsSagas] Saga');
 
         // return new CreateProductCommand(event['productDto']);
       }),

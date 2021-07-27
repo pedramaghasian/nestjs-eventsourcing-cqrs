@@ -14,7 +14,7 @@ export class ProductController{
     @ApiResponse({ status: 200, description: 'Create Product' })
     @Post()
     async createProduct(@Body() data:CreateProductDto){
-       const createProductResponse= await this.productServiceClient.emit('create_product',data)
+       const createProductResponse= await this.productServiceClient.emit('create_product',data).toPromise()
       Logger.log(data,'send to topic create_product')
        return createProductResponse;
     }

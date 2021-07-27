@@ -1,14 +1,16 @@
-import { IsString } from 'class-validator';
+import { IsString } from "class-validator";
+
 
 export class CreateProductDto {
-  @IsString()
 
+  
+  @IsString()
   id: string;
-
+  
   @IsString()
-
   title: string;
 
   @IsString()
   image: string;
+
 }

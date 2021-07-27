@@ -1,15 +1,23 @@
 // import { AggregateRoot } from '@nestjs/cqrs';
+import { AggregateRoot } from '@nestjs/cqrs';
+import { CreateProductDto } from '../dtos/create-product.dto';
 import { ProductCreatedEvent } from '../events/impl/product-created.event';
-import { AggregateRoot } from '@nordfjord/nestjs-cqrs-es';
+
 export class Product extends AggregateRoot {
-  createProduct(id, title, image) {
-    this.apply(
-      new ProductCreatedEvent({
-        id,
-        title,
-        image,
-      }),
-    );
+  [x: string]: any;
+
+
+  constructor(private readonly id: string | undefined) {
+    super();
+  }
+
+  setData(data) {
+    this.data = data;
+  }
+
+  createProduct() {
+    console.log(this.data);
+    this.apply( new ProductCreatedEvent(this.data));
   }
 
   updateProduct() {}

@@ -3,6 +3,10 @@ import { IsString } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
+  @ApiProperty({
+    type: String,
+    example: '56',
+  })
   id: string;
 
   @IsString()

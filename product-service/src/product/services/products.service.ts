@@ -8,6 +8,7 @@ export class ProductService {
   constructor(private readonly commandBus: CommandBus) {}
 
   async createProduct(product: CreateProductDto) {
+    // console.log(product)
     return await this.commandBus.execute(new CreateProductCommand(product));
   }
 }

@@ -1,8 +1,10 @@
 import { CreateProductDto } from 'src/product/dtos/create-product.dto';
-import { Event } from '@nordfjord/nestjs-cqrs-es';
+import { IEvent } from '@nestjs/cqrs';
 
-export class ProductCreatedEvent extends Event<CreateProductDto> {
-  constructor(data: CreateProductDto) {
-    super(data);
+export class ProductCreatedEvent implements IEvent {
+  constructor(private readonly product: CreateProductDto) {
+    
   }
+
+
 }

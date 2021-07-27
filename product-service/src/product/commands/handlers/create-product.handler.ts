@@ -1,9 +1,9 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { CreateProductCommand } from '../impl/create-product.command';
-import {
-  AggregateRepository,
-  InjectAggregateRepository,
-} from '@nordfjord/nestjs-cqrs-es';
+
+import { ProductRepository } from 'src/product/repository/product.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Product } from 'src/product/models/product.model';
 
 @CommandHandler(CreateProductCommand)
@@ -11,16 +11,21 @@ export class CreateProductHandler
   implements ICommandHandler<CreateProductCommand>
 {
   constructor(
-    @InjectAggregateRepository(Product)
-    private readonly repository: AggregateRepository<Product>,
+    private readonly publisher: EventPublisher,
+    private readonly repository:ProductRepository,
   ) {}
 
   async execute(command: CreateProductCommand) {
     const { productDto } = command;
-    const { id, image, title } = productDto;
-    const produt = await this.repository.findOne(productDto.id);
-    await produt.createProduct(id, title, image);
-    await this.repository.save(produt);
-    return { success: true };
+    const product = this.publisher.mergeObjectContext(
+      await this.repository.createProduct(productDto)
+     
+    );
+  
+    
+    
+    product.commit()
+    return product
+
   }
 }

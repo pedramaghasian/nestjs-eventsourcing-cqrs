@@ -1,20 +1,31 @@
-import { CqrsModule, CommandBus, EventBus } from '@nestjs/cqrs';
+import { CqrsModule } from '@nestjs/cqrs';
 import { ProductModule } from './product/product.module';
-import { Module, OnModuleInit } from '@nestjs/common';
-import { EventStoreModule, EventStore, Event } from '@nordfjord/nestjs-cqrs-es';
+import { Module } from '@nestjs/common';
+import {EventStoreModule} from "@juicycleff/nestjs-event-store"
+
 
 @Module({
   imports: [
     CqrsModule,
-
-    EventStoreModule.forRoot({
-      connection: {
-        defaultUserCredentials: { username: 'admin', password: 'changeit' },
+    EventStoreModule.register({
+      type: 'event-store',
+      tcpEndpoint: {
+        host: 'localhost',
+        port: 1113,
       },
-      // tcpEndpoint: 'tcp://127.0.0.1:1113',
-      tcpEndpoint: 'tcp://eventstoredb:1113',
+      options: {
+        maxRetries: 1000, // Optional
+        maxReconnections: 1000,  // Optional
+        reconnectionDelay: 1000,  // Optional
+        heartbeatInterval: 1000,  // Optional
+        heartbeatTimeout: 1000,  // Optional
+        defaultUserCredentials: {
+          password: 'admin',
+          username: 'chnageit',
+        },
+      },
     }),
-
+   
     ProductModule,
   ],
   controllers: [],
