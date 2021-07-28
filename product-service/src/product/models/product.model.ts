@@ -1,26 +1,18 @@
-// import { AggregateRoot } from '@nestjs/cqrs';
-import { AggregateRoot } from '@nestjs/cqrs';
-import { CreateProductDto } from '../dtos/create-product.dto';
-import { ProductCreatedEvent } from '../events/impl/product-created.event';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export class Product extends AggregateRoot {
-  [x: string]: any;
+export type ProductDocument = Product & Document;
 
+@Schema()
+export class Product {
+  @Prop({ unique: true })
+  id: string;
 
-  constructor(private readonly id: string | undefined) {
-    super();
-  }
+  @Prop({ unique: true })
+  title: string;
 
-  setData(data) {
-    this.data = data;
-  }
-
-  createProduct() {
-    console.log(this.data);
-    this.apply( new ProductCreatedEvent(this.data));
-  }
-
-  updateProduct() {}
-
-  deleteProduct() {}
+  @Prop()
+  image: string;
 }
+
+export const ProductSchema = SchemaFactory.createForClass(Product);

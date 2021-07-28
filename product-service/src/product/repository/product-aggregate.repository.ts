@@ -2,13 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from '../dtos/create-product.dto';
-import { Product } from '../models/product.model';
+import { Product } from '../models/product.aggregate';
 
 @Injectable()
-export class ProductRepository {
-
-
-  
+export class ProductAggregateRepository {
   async createProduct(productDto) {
     const product = new Product(undefined);
     product.setData(productDto);

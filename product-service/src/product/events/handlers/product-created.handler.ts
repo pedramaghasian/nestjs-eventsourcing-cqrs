@@ -1,13 +1,15 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { Logger } from '@nestjs/common';
+import { ProductModelRepository } from 'src/product/repository/product-model.retpository';
 import { ProductCreatedEvent } from '../impl/product-created.event';
-import {Event} from '@nordfjord/nestjs-cqrs-es'
 
 @EventsHandler(ProductCreatedEvent)
 export class ProductCreatedHandler
   implements IEventHandler<ProductCreatedEvent>
 {
+  constructor(
+    private readonly productModelRepository: ProductModelRepository,
+  ) {}
   handle(event: ProductCreatedEvent) {
-    // console.log('productCreatedEventHandler\n',event)
+    return this.productModelRepository.create(event['product']);
   }
 }
