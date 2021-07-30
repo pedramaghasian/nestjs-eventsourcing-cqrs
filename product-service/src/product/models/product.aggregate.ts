@@ -6,7 +6,7 @@ import { ProductCreatedEvent } from '../events/impl/product-created.event';
 export class Product extends AggregateRoot {
   [x: string]: any;
 
-  constructor(private readonly id: string | undefined) {
+  constructor(private id: string | undefined) {
     super();
   }
 
@@ -15,7 +15,6 @@ export class Product extends AggregateRoot {
   }
 
   createProduct() {
-    console.log(this.data, 'in the model');
     this.apply(new ProductCreatedEvent(this.data));
   }
 

@@ -7,26 +7,21 @@ import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     CqrsModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/product', {
-      autoCreate: true,
-    }),
     EventStoreModule.register({
       type: 'event-store',
       tcpEndpoint: {
-        host: 'localhost',
+        host: 'eventstoredb',
         port: 1113,
       },
       options: {
-        maxRetries: 1000, // Optional
-        maxReconnections: 1000, // Optional
-        reconnectionDelay: 1000, // Optional
-        heartbeatInterval: 1000, // Optional
-        heartbeatTimeout: 1000, // Optional
         defaultUserCredentials: {
           password: 'admin',
           username: 'chnageit',
         },
       },
+    }),
+    MongooseModule.forRoot('mongodb://mongodb:27017/product', {
+      autoCreate: true,
     }),
     ProductModule,
   ],

@@ -19,11 +19,9 @@ import { ProductModelRepository } from './repository/product-model.retpository';
 @Module({
   imports: [
     CqrsModule,
-    MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
     EventStoreModule.registerFeature({
       featureStreamName: '$ce-product',
       type: 'event-store',
-      // store: MongoStore, // Optional mongo store for persisting catchup events position for microservices to mitigate failures. Must implement IAdapterStore
       subscriptions: [
         {
           type: EventStoreSubscriptionType.CatchUp,
@@ -34,6 +32,7 @@ import { ProductModelRepository } from './repository/product-model.retpository';
         ProductCreatedEvent: (data) => new ProductCreatedEvent(data),
       },
     }),
+    MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
   ],
   controllers: [ProductController],
   providers: [
