@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { timeout } from 'rxjs';
 import { CreateProductDto } from './dtos/product/create-product.dto';
 @Controller('products')
 @ApiTags('products')
@@ -18,16 +19,17 @@ export class ProductController {
     private readonly productServiceClient: ClientProxy,
   ) {}
 
+  async onApplicationBootstrap() {
+    await this.productServiceClient.connect();
+  }
+
   @ApiOperation({ description: 'create product' })
   @ApiResponse({ status: 201, description: 'Create Product' })
   @Post()
   async createProduct(@Body() data: CreateProductDto) {
-    const createProductResponse = await this.productServiceClient
-      .emit('create_product', data)
+    return this.productServiceClient
+      .send<string>('create_product', data)
       .toPromise();
-    Logger.log(data, 'send to topic create_product');
-    console.log(createProductResponse);
-    return createProductResponse;
   }
 
   @ApiOperation({ description: 'find product by id ' })

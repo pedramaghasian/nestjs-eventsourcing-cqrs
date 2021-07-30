@@ -1,44 +1,50 @@
-version: "3.3"
+version: "3.8"
+
 services:
-  # gateway:
-  #   container_name: gateway
-  #   build:
-  #     context: ../gateway/
-  #     target: development
-  #     dockerfile: ./Dockerfile
-  #   volumes:
-  #     - .:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   ports:
-  #     - 3000:3000
-  #   command: npm run start:dev
-  # env_file:
-  #   - .env
+  #1.gateway.service
+  gateway:
+    container_name: gateway.service
+    build:
+      context: ../gateway
+      dockerfile: ./Dockerfile
+    volumes:
+      - ../gateway:/usr/src/app
+    depends_on:
+      - rabbitmq
+    ports:
+      - 3000:3000
+    command: npm run start:dev
 
-  # product.service:
-  #   container_name: product.service
-  #   build:
-  #     context: ../product-service
-  #     target: development
-  #   volumes:
-  #     - .:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   command: npm run listen
-  #   rabbitmq:
-  #     image: rabbitmq:3-management-alpine
-  #     container_name: rabbitmq
-  #     hostname: rabbitmq
-  #     volumes:
-  #       - logMQ:/var/lib/rabbitmq/
-  #       - logMQ2:/var/log/rabbitmq/
-  #     environment:
-  #       RABBITMQ_DEFAULT_USER: user
-  #       RABBITMQ_DEFAULT_PASS: password
-  #     ports:
-  #       - 5672:5672
-  #       - 15672:15672
+  #2.product.service
+  product.service:
+    container_name: product.service
+    build:
+      context: ../product-service
+      dockerfile: ./Dockerfile
+    volumes:
+      - ../product-service:/usr/src/app
+    depends_on:
+      - rabbitmq
+      - eventstoredb
+    command: npm run start:dev
 
-  eventstore.db:
+  #3.rabbitmq.service
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    hostname: rabbitmq
+    volumes:
+      - logMQ:/var/lib/rabbitmq/
+      - logMQ2:/var/log/rabbitmq/
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  #4.eventstoredb.service
+  eventstoredb:
     image: eventstore/eventstore
     container_name: eventstoredb
     environment:
@@ -61,6 +67,7 @@ services:
         source: eventstore-volume-logs
         target: /var/log/eventstore
 
+  #5.mongodb.service
   mongodb:
     image: mongo
     container_name: mongodb
