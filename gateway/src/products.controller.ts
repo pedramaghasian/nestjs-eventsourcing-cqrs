@@ -8,7 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { timeout } from 'rxjs';
 import { CreateProductDto } from './dtos/product/create-product.dto';
 @Controller('products')
@@ -18,10 +18,6 @@ export class ProductController {
     @Inject('PRODUCT_SERVICE')
     private readonly productServiceClient: ClientProxy,
   ) {}
-
-  async onApplicationBootstrap() {
-    await this.productServiceClient.connect();
-  }
 
   @ApiOperation({ description: 'create product' })
   @ApiResponse({ status: 201, description: 'Create Product' })
@@ -34,13 +30,11 @@ export class ProductController {
 
   @ApiOperation({ description: 'find product by id ' })
   @ApiResponse({ status: 200, description: 'ok' })
-  @Get('/:identifier')
-  //   @ApiParam({ name: 'identifier' })
-  async findOneById(@Param('identifier') productId) {
-    const createProductResponse = await this.productServiceClient
-      .emit('find_product_by_id', productId)
+  @Get('/:id')
+  @ApiParam({ name: 'id' })
+  async findOneById(@Param('id') productId) {
+    return this.productServiceClient
+      .send('find_product_by_id', productId)
       .toPromise();
-    console.log(createProductResponse);
-    return createProductResponse;
   }
 }

@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ProductDocument, Product } from '../models/product.model';
+import { travelSchemaPossibleExtensions } from 'graphql-tools';
 
 @Injectable()
 export class ProductModelRepository {
@@ -33,9 +34,12 @@ export class ProductModelRepository {
 
   async findOneById(data) {
     const { id } = data;
-
     const product = await this.productModel.findOne({ _id: id });
-    console.log(product);
+    return product;
+  }
+
+  async findByTitle(title) {
+    const product = await this.productModel.findOne({ title: title });
     return product;
   }
 }

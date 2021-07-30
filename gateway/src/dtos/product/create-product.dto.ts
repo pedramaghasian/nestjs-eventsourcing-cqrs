@@ -3,23 +3,19 @@ import { IsString } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
-  @ApiProperty({
-    type: String,
-    example: '56',
-  })
-  id: string;
+  id?: string;
 
   @IsString()
   @ApiProperty({
     type: String,
-    example: 'title',
+    example: 'some good title ',
   })
   title: string;
 
   @IsString()
   @ApiProperty({
     type: String,
-    example: 'image',
+    example: 'some good image url',
   })
   image: string;
 }

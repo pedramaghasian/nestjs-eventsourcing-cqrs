@@ -3,13 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from '../dtos/create-product.dto';
 import { Product } from '../models/product.aggregate';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ProductAggregateRepository {
   async createProduct(productDto) {
-    const product = new Product(undefined);
-    product.setData(productDto);
-    product.createProduct();
+    const uuid = uuidv4();
+    const product = new Product(uuid);
+    product.createProduct(productDto);
     return product;
   }
 

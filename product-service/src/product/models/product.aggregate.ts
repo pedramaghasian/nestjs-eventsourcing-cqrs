@@ -10,12 +10,9 @@ export class Product extends AggregateRoot {
     super();
   }
 
-  setData(data) {
-    this.data = data;
-  }
-
-  createProduct() {
-    this.apply(new ProductCreatedEvent(this.data));
+  createProduct(data) {
+    console.log(data, 'inside aggregate Product');
+    this.apply(new ProductCreatedEvent(data));
   }
 
   updateProduct() {}

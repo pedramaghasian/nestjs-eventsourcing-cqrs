@@ -5,6 +5,8 @@ import { ProductAggregateRepository } from 'src/product/repository/product-aggre
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from 'src/product/models/product.aggregate';
+import { ProductModelRepository } from 'src/product/repository/product-model.retpository';
+import { BadRequestException } from '@nestjs/common';
 
 @CommandHandler(CreateProductCommand)
 export class CreateProductHandler
@@ -12,16 +14,18 @@ export class CreateProductHandler
 {
   constructor(
     private readonly publisher: EventPublisher,
-    private readonly repository: ProductAggregateRepository,
+    private readonly productAggregateRepo: ProductAggregateRepository,
+    private readonly productModelRepo: ProductModelRepository,
   ) {}
 
   async execute(command: CreateProductCommand) {
     const { productDto } = command;
-    const product = this.publisher.mergeObjectContext(
-      await this.repository.createProduct(productDto),
+    console.log(productDto);
+
+    const result = await this.publisher.mergeObjectContext(
+      await this.productAggregateRepo.createProduct(productDto),
     );
 
-    product.commit();
-    return product;
+    return result.commit();
   }
 }

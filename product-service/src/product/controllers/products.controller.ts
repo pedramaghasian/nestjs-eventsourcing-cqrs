@@ -18,25 +18,14 @@ export class ProductController {
   /* Create User */
   /*--------------------------------------------*/
 
-  // @EventPattern('create_product')
-  // async createProduct(data: CreateProductDto) {
-  //   data.id = uuidv4();
-  //   console.log(data)
-  //   return this.productService.createProduct(data);
-
-  // }
-
   @MessagePattern('create_product')
-  getNotifications(
-    @Payload() data: CreateProductDto,
-    @Ctx() context: RmqContext,
-  ) {
-    data.id = uuidv4();
+  createProduct(@Payload() data: CreateProductDto, @Ctx() context: RmqContext) {
+    data.id = 'pedram aghasian 007';
     return this.productService.createProduct(data);
   }
 
-  @EventPattern('find_product_by_id')
-  async findOneById(id) {
+  @MessagePattern('find_product_by_id')
+  async findOneById(@Payload() id) {
     return this.productService.findOneById(id);
   }
 }
