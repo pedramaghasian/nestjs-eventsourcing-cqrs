@@ -1,6 +1,29 @@
 version: "3.8"
 
 services:
+
+  #1.gateway.service
+  gateway:
+      container_name: gateway.service
+      build:
+        context: ../gateway
+        dockerfile: ./Dockerfile
+      volumes:
+        - ../gateway:/usr/src/app
+      ports:
+        - 3000:3000
+      command: npm run start:dev
+  
+  #2.product.service
+  product.service:
+      container_name: product.service
+      build:
+        context: ../product-service
+        dockerfile: ./Dockerfile
+      volumes:
+        - ../product-service:/usr/src/app
+      command: npm run start:dev
+  
   #3.rabbitmq.service
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -52,27 +75,6 @@ services:
       - 27017:27017
     restart: unless-stopped
 
-  #1.gateway.service
-  gateway:
-    container_name: gateway.service
-    build:
-      context: ../gateway
-      dockerfile: ./Dockerfile
-    volumes:
-      - ../gateway:/usr/src/app
-    ports:
-      - 3000:3000
-    command: npm run start:dev
-
-  #2.product.service
-  product.service:
-    container_name: product.service
-    build:
-      context: ../product-service
-      dockerfile: ./Dockerfile
-    volumes:
-      - ../product-service:/usr/src/app
-    command: npm run start:dev
 
 volumes:
   logMQ:
