@@ -5,14 +5,18 @@ import { ProductCreatedEvent } from '../events/impl/product-created.event';
 
 export class Product extends AggregateRoot {
   [x: string]: any;
+  id: string;
 
-  constructor(private id: string | undefined) {
+  constructor() {
     super();
   }
 
+  setId(id) {
+    this.id = id;
+  }
+
   createProduct(data) {
-    console.log(data, 'inside aggregate Product');
-    this.apply(new ProductCreatedEvent(data));
+    this.apply(new ProductCreatedEvent(data, this.id));
   }
 
   updateProduct() {}

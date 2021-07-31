@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./apps/gateway/test/jest-e2e.json"
   },
   "dependencies": {
+    "@eventstore/db-client": "^2.0.0",
     "@juicycleff/nestjs-event-store": "^3.1.18",
     "@nestjs/common": "7.6.18",
     "@nestjs/core": "7.6.18",

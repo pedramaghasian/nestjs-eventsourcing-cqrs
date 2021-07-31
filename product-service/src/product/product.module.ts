@@ -9,9 +9,11 @@ import { QueryHandlers } from './queries/handlers';
 import { ProductCreatedEvent } from './events/impl/product-created.event';
 import { CqrsModule, QueryHandler } from '@nestjs/cqrs';
 import {
-  EventStoreModule,
+  // EventStoreModule,
   EventStoreSubscriptionType,
 } from '@juicycleff/nestjs-event-store';
+import { EventStoreModule } from '../core/index';
+
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductSchema, Product } from 'src/product/models/product.model';
 import { ProductModelRepository } from './repository/product-model.retpository';
@@ -29,7 +31,7 @@ import { ProductModelRepository } from './repository/product-model.retpository';
         },
       ],
       eventHandlers: {
-        ProductCreatedEvent: (data) => new ProductCreatedEvent(data),
+        ProductCreatedEvent: (data, id) => new ProductCreatedEvent(data, id),
       },
     }),
     MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),

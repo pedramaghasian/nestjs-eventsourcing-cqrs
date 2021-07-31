@@ -8,7 +8,7 @@ export class Product {
   @Prop({ unique: true })
   id: string;
 
-  @Prop({ unique: true })
+  // @Prop({ unique: true })
   title: string;
 
   @Prop()

@@ -8,21 +8,21 @@ import { v4 as uuidv4 } from 'uuid';
 @Injectable()
 export class ProductAggregateRepository {
   async createProduct(productDto) {
-    const uuid = uuidv4();
-    const product = new Product(uuid);
+    const product = new Product();
+    product.setId(productDto.id);
     product.createProduct(productDto);
     return product;
   }
 
-  async updateProduct(data) {
-    const product = new Product(data.id);
-    product.setData(data);
-    product.updateProduct();
-    return product;
-  }
-  async deleteProduct(data) {
-    const product = new Product(data.id);
-    product.deleteProduct();
-    return product;
-  }
+  // async updateProduct(data) {
+  //   const product = new Product(data.id);
+  //   product.setData(data);
+  //   product.updateProduct();
+  //   return product;
+  // }
+  // async deleteProduct(data) {
+  //   const product = new Product(data.id);
+  //   product.deleteProduct();
+  //   return product;
+  // }
 }

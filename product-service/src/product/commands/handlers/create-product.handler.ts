@@ -20,8 +20,6 @@ export class CreateProductHandler
 
   async execute(command: CreateProductCommand) {
     const { productDto } = command;
-    console.log(productDto);
-
     const result = await this.publisher.mergeObjectContext(
       await this.productAggregateRepo.createProduct(productDto),
     );

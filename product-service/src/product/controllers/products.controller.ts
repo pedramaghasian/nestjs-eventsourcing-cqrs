@@ -20,7 +20,7 @@ export class ProductController {
 
   @MessagePattern('create_product')
   createProduct(@Payload() data: CreateProductDto, @Ctx() context: RmqContext) {
-    data.id = 'pedram aghasian 007';
+    data.id = uuidv4();
     return this.productService.createProduct(data);
   }
 

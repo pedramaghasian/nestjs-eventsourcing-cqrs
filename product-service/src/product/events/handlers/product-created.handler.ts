@@ -10,6 +10,7 @@ export class ProductCreatedHandler
     private readonly productModelRepository: ProductModelRepository,
   ) {}
   handle(event: ProductCreatedEvent) {
-    return this.productModelRepository.create(event['product']);
+    console.log('im event handler !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    // return this.productModelRepository.create(event['product']);
   }
 }

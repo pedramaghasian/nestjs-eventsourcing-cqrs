@@ -13,15 +13,7 @@ export class ProductModelRepository {
   ) {}
 
   async create(data): Promise<Product | any> {
-    try {
-      await new this.productModel(data).save();
-    } catch (e) {
-      if (e.code == 11000) {
-        Logger.warn('duplicate Key error', e.code);
-        return;
-      }
-      console.log(e);
-    }
+    await new this.productModel(data).save();
   }
 
   async update(_id: number, data): Promise<any> {

@@ -1,7 +1,8 @@
 import { CqrsModule } from '@nestjs/cqrs';
 import { ProductModule } from './product/product.module';
 import { Module } from '@nestjs/common';
-import { EventStoreModule } from '@juicycleff/nestjs-event-store';
+// import { EventStoreModule } from '@juicycleff/nestjs-event-store';
+import { EventStoreModule } from './core/index';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
