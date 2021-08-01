@@ -60,6 +60,10 @@ export class EventStoreBroker {
     return this.client;
   }
 
+  public _readStream(stream) {
+    return this.client.readStreamEventsForward(stream, 0, 1000);
+  }
+
   newEvent(name, payload) {
     console.log(name, 'this is name dfdsfdsdsfsdfs');
     console.log(payload, 'this is payload dfdsfdsdsfsdfs');

@@ -149,6 +149,10 @@ export class EventStore
     }
   }
 
+  public _readStream(stream) {
+    return this.eventStore._readStream(stream);
+  }
+
   async subscribeToPersistentSubscriptions(
     subscriptions: ESPersistentSubscription[],
   ) {
